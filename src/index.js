@@ -1,20 +1,18 @@
 const express = require("express");
 const connectDB = require("./config/dbconfig");
 const app = express();
+const log = require("./middleware/log");
 const shortnerRoutes = require("./routes/shortner");
 const Log = require("./logger");
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("for testing purpose");
-});
 
 app.use("/api/", shortnerRoutes);
 
-app.use(async (err, req, res, next) => {
-  await Log("backend", "error", "middleware", err.message);
-  res.status(500).send("Something went wrong");
+
+app.get("/", log, (req, res) => {
+  res.send("for testing purpose");
 });
 
 
